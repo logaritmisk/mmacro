@@ -2,7 +2,7 @@
 
 _usage() {
   cat << EOF
-usage: `basename ${0}` SCRIPT
+usage: `basename ${0}` MINI_MACRO
 
 EOF
 
@@ -40,6 +40,22 @@ _macro_find() {
   
   return 0
 }
+
+if [ "$1" == "--all" ]; then
+  shift
+
+  CWORD=${1:-1}
+
+  if [ $CWORD -eq 1 ]; then
+    _M=`_macro_all`
+
+    for _T in $_M; do
+      echo ${_T%:*}
+    done
+  fi
+
+  exit 0
+fi
 
 MACRO=`_macro_find "$1"`
 

@@ -1,0 +1,2 @@
+mmacro --all
+mmacro --unique
