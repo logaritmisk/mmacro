@@ -1,6 +1,7 @@
 MMacro
 ===========================
+	mmacro --list
 
 Install
 ---------------------------
-    bash -c "$(curl -fsSL https://github.com/Logaritmisk/mmacro/raw/master/install.sh)"
+    bash -c "$(curl -fsSL https://raw.github.com/Logaritmisk/mmacro/master/install.sh)"
