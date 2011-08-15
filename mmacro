@@ -1,0 +1,51 @@
+#!/bin/bash
+
+_usage() {
+  cat << EOF
+usage: `basename ${0}` SCRIPT
+
+EOF
+
+  return 0
+}
+
+_macro_all() {
+  local _P=${1:-`pwd`} _M=()
+
+  while true; do
+    if [ -d ${_P}/.mmacro ]; then
+      while read f; do
+        _M[${#M[@]}]=`basename $f`:`dirname $f`
+      done < <(find ${_P}/.mmacro -type f -perm -a+x)
+    fi
+
+    if [ $_P == / ]; then
+      break
+    fi
+
+    _P=`dirname $_P`
+  done
+
+  echo ${_M[@]}
+}
+
+_macro_find() {
+  local _T _M=`_macro_all`
+  
+  for _T in $_M; do
+    if [ "${_T%:*}" == "$1" ]; then
+      echo ${_T#*:}
+    fi
+  done
+  
+  return 0
+}
+
+MACRO=`_macro_find "$1"`
+
+if [ ! "$MACRO" ]; then
+  _usage
+  exit 1
+else
+  $MACRO/$1
+fi
