@@ -15,7 +15,7 @@ _macro_all() {
   while true; do
     if [ -d ${_P}/.mmacro ]; then
       while read f; do
-        _M[${#M[@]}]=`basename $f`:`dirname $f`
+        _M[${#_M[@]}]=`basename $f`:`dirname $f`
       done < <(find ${_P}/.mmacro -type f -perm -a+x)
     fi
 

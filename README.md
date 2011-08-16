@@ -1,6 +1,6 @@
 MMacro
 ===========================
-	mmacro --list
+	mmacro --all
 
 Install
 ---------------------------
