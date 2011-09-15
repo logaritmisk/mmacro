@@ -63,5 +63,7 @@ if [ ! "$MACRO" ]; then
   _usage
   exit 1
 else
-  $MACRO/$1
+  cmd=$1
+  shift
+  $MACRO/$cmd $@
 fi
