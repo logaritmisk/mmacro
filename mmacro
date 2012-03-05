@@ -1,13 +1,5 @@
 #!/bin/bash
 
-_usage() {
-  cat << EOF
-usage: `basename ${0}` MINI_MACRO
-
-EOF
-
-  return 0
-}
 
 _macro_all() {
   local _P=${1:-`pwd`} _M=()
@@ -31,13 +23,13 @@ _macro_all() {
 
 _macro_find() {
   local _T _M=`_macro_all`
-  
+
   for _T in $_M; do
     if [ "${_T%:*}" == "$1" ]; then
       echo ${_T#*:}
     fi
   done
-  
+
   return 0
 }
 
@@ -59,11 +51,17 @@ fi
 
 MACRO=`_macro_find "$1"`
 
-if [ ! "$MACRO" ]; then
-  _usage
-  exit 1
-else
+if [ "$MACRO" ]; then
   cmd=$1
+
   shift
+
   $MACRO/$cmd $@
+else
+  cat << EOF
+  usage: `basename ${0}` MINI_MACRO
+
+  EOF
+
+  exit 1
 fi
