@@ -2,13 +2,11 @@
 
 
 _macro_all() {
-  local _P=${1:-`pwd`} _M=()
+  local _P=${1:-$PWD} _M=()
 
   while true; do
     if [ -d ${_P}/.mmacro ]; then
-      while read f; do
-        _M[${#_M[@]}]=`basename $f`:`dirname $f`
-      done < <(find ${_P}/.mmacro -type f -perm -a+x)
+      while read f; do _M[${#_M[@]}]=$(basename $f):$(dirname $f); done < <(find ${_P}/.mmacro -type f -perm -a+x)
     fi
 
     if [ $_P == / ]; then
@@ -22,7 +20,7 @@ _macro_all() {
 }
 
 _macro_find() {
-  local _T _M=`_macro_all`
+  local _T _M=$(_macro_all)
 
   for _T in $_M; do
     if [ "${_T%:*}" == "$1" ]; then
@@ -39,7 +37,7 @@ if [ "$1" == "--all" ]; then
   CWORD=${1:-1}
 
   if [ $CWORD -eq 1 ]; then
-    _M=`_macro_all`
+    _M=$(_macro_all)
 
     for _T in $_M; do
       echo ${_T%:*}
@@ -49,7 +47,7 @@ if [ "$1" == "--all" ]; then
   exit 0
 fi
 
-MACRO=`_macro_find "$1"`
+MACRO=$(_macro_find "$1")
 
 if [ "$MACRO" ]; then
   cmd=$1
@@ -59,9 +57,9 @@ if [ "$MACRO" ]; then
   $MACRO/$cmd $@
 else
   cat << EOF
-  usage: `basename ${0}` MINI_MACRO
+usage: `basename ${0}` MINI_MACRO
 
-  EOF
+EOF
 
   exit 1
 fi
